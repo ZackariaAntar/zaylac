@@ -5,7 +5,30 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+import {taco} from '../../utils/supabase/supabaseClient'
+import { useEffect } from 'react';
+
+
 export default function HomeScreen() {
+
+  const trySupabase = async () =>{
+    try {
+      const message = await taco.from('test_table').select('*')
+      if (message.data) {
+			console.log(message.data);
+		}
+
+    } catch (error) {
+      console.error('NO SESSION:', error)
+
+    }
+  }
+
+
+  useEffect(()=>{
+    trySupabase()
+  },[])
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
