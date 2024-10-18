@@ -5,7 +5,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-import {taco} from '../../utils/supabase/supabaseClient'
+import {taco} from '../utils/supabase/supabaseClient'
 import { useEffect } from 'react';
 
 
