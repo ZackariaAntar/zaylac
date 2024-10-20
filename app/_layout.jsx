@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { Stack } from 'expo-router'
+import { SplashScreen, Stack } from 'expo-router'
 import { useFonts } from "expo-fonts";
 
 import React, { useEffect } from 'react'
@@ -20,9 +20,13 @@ const RootLayout = () => {
 
   useEffect(() => {
 
+    if(error) throw error;
+    if(fontsLoaded) SplashScreen.hideAsync();
   },[fontsLoaded, error])
 
-  
+  if(!fontsLoaded && !error) return null;
+
+
   return (
     <Stack>
         <Stack.Screen name="index" options={{headerShown:false}}/>
