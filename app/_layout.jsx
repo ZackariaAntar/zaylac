@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Stack } from 'expo-router'
 import { useFonts } from "expo-fonts";
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const RootLayout = () => {
 
@@ -17,6 +17,11 @@ const RootLayout = () => {
     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
+
+  useEffect(() => {
+
+  },[fontsLoaded, error])
+
   
   return (
     <Stack>
