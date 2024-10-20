@@ -10,6 +10,9 @@ const TabIcon = ({ icon, color, name, focused}) => {
         <View>
             <Image
                 source={icon}
+                resizeMode="contain"
+                tintColor={color}
+                className="w-6 h-6"
             />
 
         </View>
