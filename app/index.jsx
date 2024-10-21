@@ -4,6 +4,8 @@ import { View, Text, Image, ScrollView } from "react-native";
     import {  SafeAreaView} from "react-native-safe-area-context";
 
     import { image } from "../constants"; 
+    import CustomButton from "../components/CustomButton/CustomButton";
+   
 
     export default function App ()  {
 
@@ -30,21 +32,24 @@ import { View, Text, Image, ScrollView } from "react-native";
                         <Text className="text-3xl text-white font-bold text-center">
                         Your Circle, Your Savings, Your Future with, {''}
 
-                         <Text className="text-secondary-100">Kaayo</Text>
+                            <Text className="text-secondary-100">Kaayo</Text>
                         </Text>
 
                         <Image
-                           source={image.path} 
-                           className="w-[236px] h-[15px] absolute
-                           -bottom-3 -right-4"
-                           resizeMode ="contain"
+                            source={image.path} 
+                            className="w-[236px] h-[15px] absolute
+                            -bottom-3 -right-4"
+                            resizeMode ="contain"
                         />
                 
                     </View>
                     <Text className="text-sm font-pregular text-gray-100 text-center mt-7">
                     Where Collaboration with your famalies, friends and collegeus Meets Financial Strength:
-                     Kaayo helps you save and grow as a community.
+                    Kaayo helps you save and grow as a community.
                     </Text>
+
+                    <CustomButton/>
+
             </View>
                 
             </ScrollView>
