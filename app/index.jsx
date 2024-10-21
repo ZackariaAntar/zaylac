@@ -25,6 +25,15 @@ import { View, Text, Image, ScrollView } from "react-native";
                         className="max-w-[380px] w-full h-[300px]"
                         resizeMode="contain"
                     />
+
+                    <View className="relative mt-5">
+                        <Text className="text-3xl text-white font-bold text-center">
+                        Your Circle, Your Savings, Your Future with {''}
+
+                         <Text className="text-secondary-100">Kaayo</Text>
+                        </Text>
+                       
+                    </View>
             </View>
                 
             </ScrollView>
