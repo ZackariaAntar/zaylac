@@ -28,12 +28,23 @@ import { View, Text, Image, ScrollView } from "react-native";
 
                     <View className="relative mt-5">
                         <Text className="text-3xl text-white font-bold text-center">
-                        Your Circle, Your Savings, Your Future with {''}
+                        Your Circle, Your Savings, Your Future with, {''}
 
                          <Text className="text-secondary-100">Kaayo</Text>
                         </Text>
-                       
+
+                        <Image
+                           source={image.path} 
+                           className="w-[236px] h-[15px] absolute
+                           -bottom-3 -right-4"
+                           resizeMode ="contain"
+                        />
+                
                     </View>
+                    <Text className="text-sm font-pregular text-gray-100 text-center mt-7">
+                    Where Collaboration with your famalies, friends and collegeus Meets Financial Strength:
+                     Kaayo helps you save and grow as a community.
+                    </Text>
             </View>
                 
             </ScrollView>
