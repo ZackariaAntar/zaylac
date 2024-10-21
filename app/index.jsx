@@ -48,7 +48,12 @@ import { View, Text, Image, ScrollView } from "react-native";
                     Kaayo helps you save and grow as a community.
                     </Text>
 
-                    <CustomButton/>
+                    <CustomButton
+                        title="Continue With Email"
+                        handlePress ={() => {}}
+                        containertyles ="w-full mt-7"
+
+                    />
 
             </View>
                 
