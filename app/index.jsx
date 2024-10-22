@@ -13,24 +13,24 @@ import { View, Text, Image, ScrollView } from "react-native";
 
         <SafeAreaView className="bg-primary h-full">
 
-            <ScrollView contentContainerStyle={{height: '100%'}}>
+            <ScrollView contentContainerStyle={{height:'100%'}}>
 
             <View className="w-full justify-center items-center h-full px-4">
                     <Image
                         source={image.logo}
-                        className="w-[214px] h-[84px]"
+                        className="w-[130px] h-[84px]"
                         resizeMode="contain"
                     />
 
                     <Image
                         source={image.cards}
-                        className="max-w-[380px] w-full h-[300px]"
+                        className="max-w-[380px] w-full h-[298px]"
                         resizeMode="contain"
                     />
 
                     <View className="relative mt-5">
                         <Text className="text-3xl text-white font-bold text-center">
-                        Your Circle, Your Savings, Your Future with, {''}
+                        Your Circle, Your Savings, Your Future with, {' '}
 
                             <Text className="text-secondary-100">Kaayo</Text>
                         </Text>
@@ -51,7 +51,7 @@ import { View, Text, Image, ScrollView } from "react-native";
                     <CustomButton
                         title="Continue With Email"
                         handlePress ={() => {}}
-                        containertyles ="w-full mt-7"
+                        containerStyles ="w-full mt-7"
 
                     />
 
