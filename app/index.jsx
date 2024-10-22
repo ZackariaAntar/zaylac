@@ -9,6 +9,11 @@ import { View, Text, Image, ScrollView } from "react-native";
 
     export default function App ()  {
 
+        const handlePress = () =>{
+            router.push('/sign-in'); 
+
+        }
+
     return (
 
         <SafeAreaView className="bg-primary h-full">
@@ -50,7 +55,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 
                     <CustomButton
                         title="Continue With Email"
-                        handlePress ={() => router.push('/sign-in')}
+                        handlePress ={handlePress}
                         containerStyles ="w-full mt-7"
 
                     />
