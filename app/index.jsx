@@ -15,20 +15,20 @@ import { View, Text, Image, ScrollView } from "react-native";
 
             <ScrollView contentContainerStyle={{height:'100%'}}>
 
-            <View className="w-full justify-center items-center h-[92vh] px-3">
+            <View className="w-full justify-center items-center min-h-[85vh] px-4">
                     <Image
                         source={image.logo}
-                        className="w-[180px] h-[100px]"
+                        className="w-[180px] h-[115px]"
                         resizeMode="contain"
                     />
 
                     <Image
                         source={image.cards}
-                        className="max-w-[380px] w-full h-[298px] -mt-8 rounded-lg"
+                        className="max-w-[380px] w-full h-[298px] -mt-4"
                         resizeMode="contain"
                     />
 
-                    <View className="relative mt-1">
+                    <View className="relative mt-5">
                         <Text className="text-3xl text-white font-bold text-center">
                         Your Circle, Your Savings, Your Future with, {' '}
 
@@ -51,7 +51,7 @@ import { View, Text, Image, ScrollView } from "react-native";
                     <CustomButton
                         title="Continue With Email"
                         handlePress ={() => router.push('/sign-in')}
-                        containerStyles ="w-full mt-5"
+                        containerStyles ="w-full mt-7"
 
                     />
 
