@@ -13,7 +13,7 @@ const CustomButton = ({title, handlePress, containerStyles, textStyles, isLoadin
             disabled={isLoading}
             
             >
-        <Text className="text-black-200 font-psemibold">CustomButton</Text>
+        <Text className={`text-black-200 font-psemibold ${textStyles}`}>{title}</Text>
         </TouchableOpacity>
     )
     }

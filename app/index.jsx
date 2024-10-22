@@ -58,6 +58,10 @@ import { View, Text, Image, ScrollView } from "react-native";
             </View>
                 
             </ScrollView>
+            <StatusBar
+                backgroundColor="#FEE9E7"
+                style="light"
+            />
         </SafeAreaView>
     )
     }
