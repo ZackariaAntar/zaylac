@@ -3,6 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Image } from "react-native";
 
+import FormField from "../../components/FormField/FormField"
 import { image } from "../../constants";
 
 const SignIn = () => {
@@ -17,6 +18,7 @@ const SignIn = () => {
 					/>
                     <Text className="text-2xl text-white-100 text-semibold 
                     mt-10 font-psemibold">Log in to Kaayo</Text>
+                    <FormField/>
 				</View>
 			</ScrollView>
 		</SafeAreaView>
