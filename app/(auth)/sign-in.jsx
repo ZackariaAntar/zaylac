@@ -12,9 +12,11 @@ const SignIn = () => {
 				<View className="w-full justify-center h-full px-4 mt-6">
 					<Image
 						source={image.logo}
-						className="w-[180px] h-[115px]"
+						className="w-[115px] h-[35px]"
 						resizeMode="contain"
 					/>
+                    <Text className="text-2xl text-white-100 text-semibold 
+                    mt-10 font-psemibold">Log in to Kaayo</Text>
 				</View>
 			</ScrollView>
 		</SafeAreaView>

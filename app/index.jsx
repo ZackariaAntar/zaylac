@@ -42,7 +42,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 
                         <Image
                             source={image.path} 
-                            className="w-[236px] h-[15px] absolute
+                            className="w-[136px] h-[15px] absolute
                             -bottom-3 -right-4"
                             resizeMode ="contain"
                         />
