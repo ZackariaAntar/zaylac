@@ -27,6 +27,7 @@ const SignIn = () => {
                     <FormField
                         title="Email"
                         value={form.email}
+                        handleChangeText={(e) =>setForm({...form, email:e})}
                     />
 
 				</View>
