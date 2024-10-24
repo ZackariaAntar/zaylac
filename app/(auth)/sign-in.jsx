@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
+import {useState} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Image } from "react-native";
 
@@ -10,7 +11,7 @@ const SignIn = () => {
 
     const [form, setForm] = useState({
         email: '',
-        pasword: ''
+        password: ''
     })
 	return (
 		<SafeAreaView className="bg-primary h-full">
@@ -27,7 +28,16 @@ const SignIn = () => {
                     <FormField
                         title="Email"
                         value={form.email}
-                        handleChangeText={(e) =>setForm({...form, email:e})}
+                        handleChangeText={(e) =>setForm({...form, email: e })}
+                        otherStyles="mt-7"
+                        keyboardType="email-address"
+                    />
+
+<FormField
+                        title="PassWord"
+                        value={form.password}
+                        handleChangeText={(e) =>setForm({...form, password: e })}
+                        otherStyles="mt-7"
                     />
 
 				</View>
