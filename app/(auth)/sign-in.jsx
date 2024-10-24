@@ -7,6 +7,11 @@ import FormField from "../../components/FormField/FormField"
 import { image } from "../../constants";
 
 const SignIn = () => {
+
+    const [form, setForm] = useState({
+        email: '',
+        pasword: ''
+    })
 	return (
 		<SafeAreaView className="bg-primary h-full">
 			<ScrollView>
@@ -18,7 +23,12 @@ const SignIn = () => {
 					/>
                     <Text className="text-2xl text-white-100 text-semibold 
                     mt-10 font-psemibold">Log in to Kaayo</Text>
-                    <FormField/>
+
+                    <FormField
+                        title="Email"
+                        value={form.email}
+                    />
+
 				</View>
 			</ScrollView>
 		</SafeAreaView>
