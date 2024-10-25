@@ -13,6 +13,9 @@ const SignIn = () => {
         email: '',
         password: ''
     });
+
+const [isSubmitting, setIsSubmiting] = useState(false)
+
 const submit = () => {
 
 }
@@ -48,10 +51,10 @@ const submit = () => {
                     />
 
                     <CustomButton
-
                     title="Sign In"
                     handlePress = {submit}
                     containerStyles="mt-7"
+                    isLoading={isSubmitting}
                     
                     />
 
