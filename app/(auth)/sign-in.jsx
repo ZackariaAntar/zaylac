@@ -1,49 +1,51 @@
-import { View, Text } from "react-native";
-import React from "react";
-import {useState} from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView, Image } from "react-native";
 
-import FormField from "../../components/FormField/FormField"
+import { View, Text, Image, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import FormField from "../../components/FormField/FormField";
 import { image } from "../../constants";
 
 const SignIn = () => {
-
     const [form, setForm] = useState({
         email: '',
         password: ''
-    })
-	return (
-		<SafeAreaView className="bg-primary h-full">
-			<ScrollView>
-				<View className="w-full justify-center h-full px-4 mt-6">
-					<Image
-						source={image.logo}
-						className="w-[115px] h-[35px]"
-						resizeMode="contain"
-					/>
-                    <Text className="text-2xl text-white-100 text-semibold 
-                    mt-10 font-psemibold">Log in to Kaayo</Text>
+    });
+
+    return (
+        <SafeAreaView className="bg-primary h-full">
+            <ScrollView>
+                <View className="w-full justify-center h-full px-4 mt-6">
+                    <Image
+                        source={image.logo}
+                        className="w-[115px] h-[35px]"
+                        resizeMode="contain"
+                    />
+                    <Text className="text-2xl text-white-100 text-semibold mt-10 font-psemibold">
+                        Log in to Kaayo
+                    </Text>
 
                     <FormField
                         title="Email"
                         value={form.email}
-                        handleChangeText={(e) =>setForm({...form, email: e })}
+                        placeholder="Enter your email"
+                        handleChangeText={(e) => setForm({ ...form, email: e })}
                         otherStyles="mt-7"
                         keyboardType="email-address"
                     />
 
                     <FormField
-                        title="PassWord"
+                        title="Password"
                         value={form.password}
-                        handleChangeText={(e) =>setForm({...form, password: e })}
+                        placeholder="Enter your password"
+                        handleChangeText={(e) => setForm({ ...form, password: e })}
                         otherStyles="mt-7"
+                        secureTextEntry
                     />
-
-				</View>
-			</ScrollView>
-		</SafeAreaView>
-	);
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
 };
 
 export default SignIn;
