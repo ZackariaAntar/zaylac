@@ -42,6 +42,8 @@ const SignIn = () => {
                         otherStyles="mt-7"
                         secureTextEntry
                     />
+
+                    
                 </View>
             </ScrollView>
         </SafeAreaView>
