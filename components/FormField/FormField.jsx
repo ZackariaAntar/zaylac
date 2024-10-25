@@ -27,7 +27,6 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
                             className="w-6 h-6"
                             resizeMode="contain"
                         />
-
                     </TouchableOpacity>
                 )}
             </View>

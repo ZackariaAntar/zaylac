@@ -23,10 +23,10 @@ const submit = () => {
     return (
         <SafeAreaView className="bg-primary h-full">
             <ScrollView>
-                <View className="w-full justify-center h-full px-4 mt-6">
+                <View className="w-full justify-center min-h-[85vh] px-4 mt-6">
                     <Image
                         source={image.logo}
-                        className="w-[115px] h-[35px]"
+                        className="w-[130px] h-[45px]"
                         resizeMode="contain"
                     />
                     <Text className="text-2xl text-white-100 text-semibold mt-10 font-psemibold">
