@@ -3,14 +3,14 @@ import { View, Text, Image, ScrollView } from "react-native";
     import { Redirect, router} from "expo-router";
     import {  SafeAreaView} from "react-native-safe-area-context";
 
-    import { image } from "../constants"; 
+    import { image } from "../constants";
     import CustomButton from "../components/CustomButton/CustomButton";
-   
+
 
     export default function App ()  {
 
         const handlePress = () =>{
-            router.push('/sign-in'); 
+            router.push('/sign-in');
 
         }
 
@@ -41,12 +41,12 @@ import { View, Text, Image, ScrollView } from "react-native";
                         </Text>
 
                         <Image
-                            source={image.path} 
+                            source={image.path}
                             className="w-[136px] h-[15px] absolute
                             -bottom-3 -right-4"
                             resizeMode ="contain"
                         />
-                
+
                     </View>
                     <Text className="text-sm font-pregular text-gray-100 text-center mt-7">
                     Where Collaboration with your famalies, friends and collegeus Meets Financial Strength:
@@ -61,7 +61,7 @@ import { View, Text, Image, ScrollView } from "react-native";
                     />
 
             </View>
-                
+
             </ScrollView>
             <StatusBar
                 backgroundColor="#FEE9E7"

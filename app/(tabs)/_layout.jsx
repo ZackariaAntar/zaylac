@@ -1,5 +1,8 @@
 import { View, Image, Text } from "react-native";
 import { Tabs, Redirect } from "expo-router";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "../../redux/store";
 
 import { icons } from "../../constants";
 
@@ -25,7 +28,9 @@ const TabIcon = ({ icon, color, name, focused }) => {
 
 const TabsLayout = () => {
 	return (
-		<>
+  
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
 			<Tabs
 				screenOptions={{
 					tabBarShowLabel: false,
@@ -39,71 +44,72 @@ const TabsLayout = () => {
 					},
 				}}
 			>
-				<Tabs.Screen
-					name="home"
-					options={{
-						title: "Home",
-						headerShown: "false",
-						tabBarIcon: ({ color, focused }) => (
-							<TabIcon
-								icon={icons.home}
-								color={color}
-								name="Home"
-								focused={focused}
-							/>
-						),
-					}}
-				/>
+					<Tabs.Screen
+						name="home"
+						options={{
+							title: "Home",
+							headerShown: "false",
+							tabBarIcon: ({ color, focused }) => (
+								<TabIcon
+									icon={icons.home}
+									color={color}
+									name="Home"
+									focused={focused}
+								/>
+							),
+						}}
+					/>
 
-				<Tabs.Screen
-					name="create"
-					options={{
-						title: "Create",
-						headerShown: "false",
-						tabBarIcon: ({ color, focused }) => (
-							<TabIcon
-								icon={icons.plus}
-								color={color}
-								name="Create"
-								focused={focused}
-							/>
-						),
-					}}
-				/>
+					<Tabs.Screen
+						name="create"
+						options={{
+							title: "Create",
+							headerShown: "false",
+							tabBarIcon: ({ color, focused }) => (
+								<TabIcon
+									icon={icons.plus}
+									color={color}
+									name="Create"
+									focused={focused}
+								/>
+							),
+						}}
+					/>
 
-				<Tabs.Screen
-					name="group"
-					options={{
-						title: "Group",
-						headerShown: "false",
-						tabBarIcon: ({ color, focused }) => (
-							<TabIcon
-								icon={icons.search}
-								color={color}
-								name="Group"
-								focused={focused}
-							/>
-						),
-					}}
-				/>
+					<Tabs.Screen
+						name="group"
+						options={{
+							title: "Group",
+							headerShown: "false",
+							tabBarIcon: ({ color, focused }) => (
+								<TabIcon
+									icon={icons.search}
+									color={color}
+									name="Group"
+									focused={focused}
+								/>
+							),
+						}}
+					/>
 
-				<Tabs.Screen
-					name="profile"
-					options={{
-						title: "Profile",
-						headerShown: "false",
-						tabBarIcon: ({ color, focused }) => (
-							<TabIcon
-								icon={icons.profile}
-								color={color}
-								name="Profile"
-								focused={focused}
-							/>
-						),
-					}}
-				/>
-			</Tabs>
-		</>
+					<Tabs.Screen
+						name="profile"
+						options={{
+							title: "Profile",
+							headerShown: "false",
+							tabBarIcon: ({ color, focused }) => (
+								<TabIcon
+									icon={icons.profile}
+									color={color}
+									name="Profile"
+									focused={focused}
+								/>
+							),
+						}}
+					/>
+				</Tabs>
+			</PersistGate>
+		</Provider>
 	);
 };
 
