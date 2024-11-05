@@ -2,7 +2,7 @@ import { View, Image, Text } from "react-native";
 import { Tabs, Redirect } from "expo-router";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./redux/store";
+import { store, persistor } from "../../redux/store";
 
 import { icons } from "../../constants";
 
