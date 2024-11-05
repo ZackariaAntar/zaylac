@@ -9,7 +9,7 @@ import { image } from "../../constants";
 import CustomButton from "../../components/CustomButton/CustomButton";
 
 
-const SignOut = () => {
+const SignUp = () => {
     const [form, setForm] = useState({
         username:'',
         email: '',
@@ -69,7 +69,7 @@ const submit = () => {
                     />
                     <View className="justify-center pt-5 flex-row gap-2">
                         <Text className="text-lg text-white-100 font-pregular">Have an account already?</Text>
-                        <Link href="/sign-in" className="text-lg font-psemibold text-secondary">Sign In</Link>
+                        <Link href="/home" className="text-lg font-psemibold text-secondary">Sign In</Link>
 
                     </View>
                     
@@ -79,4 +79,4 @@ const submit = () => {
     );
 };
 
-export default SignOut;
+export default SignUp;
