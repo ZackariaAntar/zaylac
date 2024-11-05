@@ -15,7 +15,7 @@ const CustomButton = ({
 			activeOpacity={0.7}
 			className={`bg-secondary-100 rounded-xl text-white-100
             min-h-[62px] justify-center items-center ${containerStyles}
-            ${isLoading ? "opacity-50" : ""}`}
+            ${isLoading ? "opacity-50" : " "}`}
 			disabled={isLoading}
 		>
 			<Text className={`text-black-200 font-psemibold ${textStyles}`}>

@@ -8,7 +8,7 @@ import { icons } from "../../constants";
 
 const TabIcon = ({ icon, color, name, focused }) => {
 	return (
-		<View className="items-center justify-center gap-2">
+		<View className="items-center justify-center gap-2 ">
 			<Image
 				source={icon}
 				resizeMode="contain"
@@ -28,21 +28,22 @@ const TabIcon = ({ icon, color, name, focused }) => {
 
 const TabsLayout = () => {
 	return (
+  
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<Tabs
-					screenOptions={{
-						tabBarShowLabel: false,
-						tabBarActiveTintColor: "#FFA001",
-						tabBarInactiveTintColor: "#CDCDE0",
-						tabBarStyle: {
-							backgroundColor: "#161622",
-							borderTopWidth: 1,
-							borderTopColor: "#232533",
-							height: 70,
-						},
-					}}
-				>
+			<Tabs
+				screenOptions={{
+					tabBarShowLabel: false,
+					tabBarActiveTintColor: "#FFA001",
+					tabBarInactiveTintColor: "#CDCDE0",
+					tabBarStyle: {
+						backgroundColor: "#006B61",
+						borderTopWidth: 1,
+						borderTopColor: "#232533",
+						height: 90,
+					},
+				}}
+			>
 					<Tabs.Screen
 						name="home"
 						options={{
