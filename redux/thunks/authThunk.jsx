@@ -1,5 +1,8 @@
 import { supabase } from "../utils/supabase/supabaseClient.jsx";
 
+import { setUserData } from "../slices/userSlice.jsx";
+
+
 export const registerUser = (payload) => async (dispatch) => {
 	console.log("IN AUTH THUNK ----> registerUser(payload): ", payload);
 
@@ -37,6 +40,7 @@ export const signIn = (payload) => async (dispatch) => {
 				login.status,
 				login.data
 			);
+            dispatch(setUserData(login.data));
 		}
 	} catch (error) {
 		console.error("AUTH THUNK ERROR ----> signIn(payload):", error);
