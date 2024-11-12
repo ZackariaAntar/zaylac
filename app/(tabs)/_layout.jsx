@@ -28,9 +28,6 @@ const TabIcon = ({ icon, color, name, focused }) => {
 
 const TabsLayout = () => {
 	return (
-  
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
 			<Tabs
 				screenOptions={{
 					tabBarShowLabel: false,
@@ -108,8 +105,6 @@ const TabsLayout = () => {
 						}}
 					/>
 				</Tabs>
-			</PersistGate>
-		</Provider>
 	);
 };
 

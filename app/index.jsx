@@ -1,18 +1,30 @@
 import { View, Text, Image, ScrollView } from "react-native";
     import { StatusBar } from "expo-status-bar";
-    import { Redirect, router} from "expo-router";
+    import { Redirect, router, useRouter} from "expo-router";
     import {  SafeAreaView} from "react-native-safe-area-context";
 
     import { image } from "../constants";
     import CustomButton from "../components/CustomButton/CustomButton";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 
     export default function App ()  {
+        const expoRouter = useRouter()
+        const auth = useSelector((store)=> store.auth)
 
         const handlePress = () =>{
             router.push('/sign-in');
 
         }
+        useEffect(()=>{
+            if(auth.session){
+                router.push('/home')
+            }else{
+                expoRouter.dismissAll()
+            }
+
+        },[auth.session])
 
     return (
 
