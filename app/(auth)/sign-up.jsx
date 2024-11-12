@@ -8,17 +8,26 @@ import { image } from "../../constants";
 
 import CustomButton from "../../components/CustomButton/CustomButton";
 
+import { registerUser } from "../../redux/thunks/authThunk";
+import { useDispatch } from "react-redux";
 
 const SignUp = () => {
-    const [form, setForm] = useState({
-        username:'',
-        email: '',
-        password: ''
-    });
+    const dispatch = useDispatch()
+    const formData = {
+		email: "",
+		password: "",
+	};
+    const [form, setForm] = useState(formData);
 
-const [isSubmitting, setIsSubmiting] = useState(false)
+const [isSubmitting, setIsSubmitting] = useState(false)
 
 const submit = () => {
+    setIsSubmitting(true)
+    console.log('FORM VALUES:', form)
+    dispatch(registerUser(form))
+    setForm(formData)
+    setIsSubmitting(false)
+
 
 }
     return (
@@ -34,13 +43,13 @@ const submit = () => {
                         Sign up to Kaayo
                     </Text>
 
-                    <FormField
+                    {/* <FormField
                         title="Username"
                         value={form.username}
                         placeholder="enter your username"
                         handleChangeText={(e) => setForm({ ...form, username: e })}
                         otherStyles="mt-10"
-                    />
+                    /> */}
 
                     <FormField
                         title="Email"
@@ -65,14 +74,14 @@ const submit = () => {
                     handlePress = {submit}
                     containerStyles="mt-7"
                     isLoading={isSubmitting}
-                    
+
                     />
                     <View className="justify-center pt-5 flex-row gap-2">
                         <Text className="text-lg text-white-100 font-pregular">Have an account already?</Text>
                         <Link href="/home" className="text-lg font-psemibold text-secondary">Sign In</Link>
 
                     </View>
-                    
+
                 </View>
             </ScrollView>
         </SafeAreaView>
