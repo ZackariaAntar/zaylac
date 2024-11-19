@@ -1,6 +1,5 @@
-
 import { View, Text, Image, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import FormField from "../../components/FormField/FormField";
@@ -9,33 +8,26 @@ import { image } from "../../constants";
 import CustomButton from "../../components/CustomButton/CustomButton";
 
 import { registerUser } from "../../redux/thunks/authThunk";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const SignUp = () => {
-    const dispatch = useDispatch()
-    const auth = useSelector((store) =>store.auth)
-    const formData = {
+	const dispatch = useDispatch();
+	const formData = {
 		email: "",
 		password: "",
 	};
-    const [form, setForm] = useState(formData);
+	const [form, setForm] = useState(formData);
 
-const [isSubmitting, setIsSubmitting] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
-const submit = () => {
-    setIsSubmitting(true)
-    console.log('FORM VALUES:', form)
-    dispatch(registerUser(form))
-    setForm(formData)
-    setIsSubmitting(false)
-}
-useEffect(()=>{
-    console.log('USER', auth.session)
-    if(auth.session){
-        router.push('/home')
-    }
-},[auth.session])
-    return (
+	const submit = () => {
+		setIsSubmitting(true);
+		console.log("FORM VALUES:", form);
+		dispatch(registerUser(form));
+		setForm(formData);
+		setIsSubmitting(false);
+	};
+	return (
 		<SafeAreaView className="bg-primary h-full">
 			<ScrollView>
 				<View className="w-full justify-center min-h-[85vh] px-4 mt-6">
@@ -47,14 +39,6 @@ useEffect(()=>{
 					<Text className="text-2xl text-white-100 text-semibold mt-10 font-psemibold">
 						Sign up to Kaayo
 					</Text>
-
-					{/* <FormField
-                        title="Username"
-                        value={form.username}
-                        placeholder="enter your username"
-                        handleChangeText={(e) => setForm({ ...form, username: e })}
-                        otherStyles="mt-10"
-                    /> */}
 
 					<FormField
 						title="Email"
@@ -74,7 +58,6 @@ useEffect(()=>{
 						}
 						otherStyles="mt-7"
 						secureTextEntry
-
 					/>
 
 					<CustomButton

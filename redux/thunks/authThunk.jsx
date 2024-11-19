@@ -48,6 +48,24 @@ export const signIn = (payload) => async (dispatch) => {
 		console.error("AUTH THUNK ERROR ----> signIn(payload):", error);
 	}
 };
+export const logout = () => async (dispatch) => {
+	console.log("IN AUTH THUNK ----> logout(): ");
+
+	try {
+		const logout = await supabase.auth.signOut();
+		if (logout.error) {
+			console.error("SUPABASE SIGN IN ERROR:", logout.error);
+		} else {
+			console.log(
+				"SUPABASE SIGN IN USER SUCCESS: ",
+				logout.status,
+				logout.data
+			);
+		}
+	} catch (error) {
+		console.error("AUTH THUNK ERROR ----> logout():", error);
+	}
+};
 
 export const createUserProfile = (payload) => async (dispatch) => {
 	console.log("IN AUTH THUNK ----> createUserProfile(payload): ", payload);
@@ -72,3 +90,4 @@ export const createUserProfile = (payload) => async (dispatch) => {
 			.single();
 	} catch (error) {}
 };
+
