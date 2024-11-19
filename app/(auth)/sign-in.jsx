@@ -1,18 +1,17 @@
 import { View, Text, Image, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import FormField from "../../components/FormField/FormField";
 import { image } from "../../constants";
 
 import CustomButton from "../../components/CustomButton/CustomButton";
 
 import { signIn } from "../../redux/thunks/authThunk";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
-	const auth = useSelector((store) => store.auth);
 
 	const formData = { email: "", password: "" };
 	const [form, setForm] = useState(formData);
@@ -26,13 +25,6 @@ const SignIn = () => {
 		setIsSubmitting(false);
 		setForm(formData);
 	};
-
-	useEffect(() => {
-		console.log("USER", auth.session);
-		if (auth.session) {
-			router.push("/home");
-		}
-	}, [auth.session]);
 
 	return (
 		<SafeAreaView className="bg-primary h-full">
