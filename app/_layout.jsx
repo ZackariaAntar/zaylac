@@ -36,7 +36,9 @@ const App = () => {
 				case "INITIAL_SESSION":
 					if (session?.user) {
 						router.push("home");
-					}
+					}else{
+            router.replace('/')
+          }
 					setLoading(false);
 					break;
 				case "SIGNED_IN":
