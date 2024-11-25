@@ -1,214 +1,152 @@
-// import React, { useState } from "react";
-// import { View, Text, Image, SafeAreaView } from "react-native";
-// import { image } from "../../constants"; 
-
-// const GroupInfo = () => {
-//   const members = [
-//     { id: 1, name: "Susan" },
-//     { id: 2, name: "Ayan" },
-//     { id: 3, name: "Ali" },
-//     { id: 4, name: "Kyle" },
-//     { id: 5, name: "Aden" },
-//     { id: 6, name: "Mahamud" },
-//     { id: 7, name: "Zakariya" },
-//     { id: 8, name: "Ismail" },
-//     { id: 9, name: "Ezra" },
-//   ];
-
-//   const nextMember = "Kyle";
-//   const currentMember = "Ali";
-
-//   // Function to calculate positioning around the circle
-//   const calculatePosition = (index, total) => {
-//     const angle = (index / total) * 2 * Math.PI; // Calculate angle for each member
-//     const radius = 60; // Adjust radius for spacing
-//     return {
-//       top: `${50 + Math.sin(angle) * radius}%`,
-//       left: `${50 + Math.cos(angle) * radius}%`,
-//       position: "absolute",
-//       transform: [{ translateX: -20 }, { translateY: 10 }], // Adjust to center the text
-//     };
-//   };
-
-//   return (
-//     <SafeAreaView className="flex-1 bg-[#356859] items-center justify-center p-4">
-//       {/* Logo */}
-//       <Image
-//         source={image.logo} // Replace with your logo
-//         className="w-[130px] h-[45px] mb-8"
-//         resizeMode="contain"
-//       />
-
-//       {/* Group Info */}
-//       <View className="bg-white p-6 rounded-md w-full max-w-[300px] mb-14">
-//         <Text className="text-xl text-center text-white-100">Name: Mahamud's Group</Text>
-//         <Text className="text-xl text-center text-white-100">Amount: $50</Text>
-//         <Text className="text-xl text-center text-white-100">Due: 09/15/24</Text>
-//       </View>
-
-//       {/* Members Wheel */}
-//       <View className="w-[200px] h-[200px] rounded-full border-2 border-white relative">
-//         {members.map((member, index) => {
-//           const position = calculatePosition(index, members.length);
-//           return (
-//             <Text
-//               key={member.id}
-//               className={`text-white text-lg font-bold ${currentMember === member.name ? 'text-[#F5CB5C]' : nextMember === member.name ? 'text-[#1D4ED8]' : ''}`}
-//               style={position}
-//             >
-//               {member.name}
-//             </Text>
-//           );
-//         })}
-//       </View>
-
-//       {/* Status */}
-//       <View className="mt-20 w-full max-w-[300px] flex-row justify-between">
-//         <Text className="text-lg text-[#F5CB5C]">
-//           <Text className="text-blue-500">Next:</Text> {nextMember}
-//         </Text>
-//         <Text className="text-lg text-[#F5CB5C]">
-//           <Text className="text-yellow-500">Current:</Text> {currentMember}
-//         </Text>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default GroupInfo;
-
-import React from "react";
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, SafeAreaView, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import { image } from "../../constants"; // Replace with your logo path
 
 const GroupInfo = () => {
-  const members = [
-    "Susan",
-    "Ayan",
-    "Ali",
-    "Kyle",
-    "Aden",
-    "Mahamud",
-    "Zakariya",
-    "Ismail",
-    "Ezra",
-  ];
+  const [members, setMembers] = useState([
+    { name: "Susan", selected: false },
+    { name: "Ayan", selected: false },
+    { name: "Ali", selected: false },
+    { name: "Kyle", selected: false },
+    { name: "Aden", selected: false },
+    { name: "Mahamud", selected: false },
+    { name: "Zakariya", selected: false },
+    { name: "Ismail", selected: false },
+    { name: "Ezra", selected: false },
+  ]);
 
-  const currentMember = "Ali";
-  const nextMember = "Kyle";
+  const [currentMember, setCurrentMember] = useState(null);
+  const [nextMember, setNextMember] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    // Randomly select current and next members
+    const interval = setInterval(() => {
+      const unselected = members.filter((member) => !member.selected);
+      if (unselected.length >= 2) {
+        const shuffled = [...unselected].sort(() => Math.random() - 0.5);
+        const selectedCurrent = shuffled[0].name;
+        const selectedNext = shuffled[1].name;
+
+        setCurrentMember(selectedCurrent);
+        setNextMember(selectedNext);
+
+        setMembers((prevMembers) =>
+          prevMembers.map((member) =>
+            member.name === selectedCurrent || member.name === selectedNext
+              ? { ...member, selected: true }
+              : member
+          )
+        );
+      }
+    }, 2000); // Simulate every 2 seconds for testing (replace with actual timing)
+
+    return () => clearInterval(interval); // Cleanup
+  }, [members]);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "#356859",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 16,
-      }}
-    >
-      {/* Group Info */}
-      <View
-        style={{
-          backgroundColor: "#fff",
-          padding: 16,
-          borderRadius: 8,
-          width: "100%",
-          maxWidth: 300,
-          marginBottom: 32,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 18, color: "#000" }}>
-          <Text style={{ fontWeight: "bold" }}>Group:</Text> Mahamud's Group
-        </Text>
-        <Text style={{ fontSize: 16, marginTop: 4 }}>Amount: $50</Text>
-        <Text style={{ fontSize: 16, marginTop: 4 }}>Due: 09/15/24</Text>
-      </View>
+    <SafeAreaView className="flex-1 bg-primary p-4">
+      <ScrollView contentContainerStyle={{ alignItems: "center", paddingBottom: 16 }}>
+        {/* Logo */}
+        <Image
+          source={image.logo} // Replace with your logo path
+          className="w-[130px] h-[45px]  mt-6 mb-4  self-center"
+          resizeMode="contain"
+        />
 
-      {/* Members Wheel */}
-      <View
-        style={{
-          width: 200,
-          height: 200,
-          borderRadius: 100,
-          borderWidth: 2,
-          borderColor: "#fff",
-          position: "relative",
-          marginBottom: 16,
-        }}
-      >
-        {members.map((name, index) => (
-          <Text
-            key={index}
-            style={{
-              position: "absolute",
-              fontSize: 12,
-              color: name === currentMember ? "#F5CB5C" : "#fff",
-              transform: [
-                { translateX: 80 * Math.cos((index / members.length) * 2 * Math.PI) },
-                { translateY: 80 * Math.sin((index / members.length) * 2 * Math.PI) },
-              ],
-              left: "50%",
-              top: "50%",
-              textAlign: "center",
-            }}
-          >
-            {name}
-          </Text>
-        ))}
-      </View>
+        {/* Parent Card */}
+        <View className="bg-white-200 p-4 rounded-xl w-full max-w-[350px] shadow-md mb-4">
+          <Text className="text-lg font-bold text-center mb-2">Group: Mahamud's Group</Text>
+          <Text className="text-base text-center text-gray-700 mb-2">Amount: $50</Text>
+          <Text className="text-base text-center text-gray-700 mb-4">Due: 09/15/24</Text>
 
-      {/* Members List */}
-      <ScrollView
+          {/* Circle Visualization */}
+          <View
+  className="w-[230px] h-[230px] rounded-full border-2 border-gray-300 relative mx-auto mb-4 bg-gray-100 flex justify-center items-center"
+>
+  <Text className="absolute text-xl font-bold text-[#F5CB5C]">
+    {currentMember || "N/A"}
+  </Text>
+  {members.map((member, index) => {
+    const angle = (index / members.length) * 2 * Math.PI; // Calculate angle for each name
+    const radius = 85; // Adjust radius
+    const nameLength = member.name.length; // Consider name length for size adjustments
+    const fontSize = nameLength > 6 ? 10 : 12; // Dynamically reduce font size for longer names
+
+    return (
+      <Text
+        key={index}
+        className={`absolute text-center ${
+          member.name === currentMember
+            ? "text-[#F5CB5C] font-bold"
+            : member.name === nextMember
+            ? "text-[#1D4ED8] font-bold"
+            : "text-gray-600"
+        }`}
         style={{
-          width: "100%",
-          maxWidth: 300,
-          backgroundColor: "#fff",
-          borderRadius: 8,
-          padding: 16,
-          marginBottom: 16,
+          fontSize, // Set dynamic font size
+          transform: [
+            { translateX: radius * Math.cos(angle) }, // X position
+            { translateY: radius * Math.sin(angle) }, // Y position
+          ],
+          left: "45%",
+          top: "45%",
         }}
       >
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 16,
-            marginBottom: 8,
-            textAlign: "center",
-          }}
-        >
-          Group Members
-        </Text>
-        {members.map((name, index) => (
-          <Text
-            key={index}
-            style={{
-              fontSize: 14,
-              paddingVertical: 4,
-              color: name === currentMember ? "#F5CB5C" : "#000",
-            }}
+        {member.name}
+      </Text>
+    );
+  })}
+</View>
+
+
+          {/* Dropdown for Member Details */}
+          <TouchableOpacity
+            className="p-4 bg-[#F5CB5C] rounded-md"
+            onPress={() => setDropdownOpen(!dropdownOpen)}
           >
-            {index + 1}. {name}
-          </Text>
-        ))}
+            <Text className="text-center text-white font-bold">View Members</Text>
+          </TouchableOpacity>
+
+          {dropdownOpen && (
+            <View className="bg-gray-100 p-4 mt-4 rounded-md">
+              <Text className="text-lg font-bold text-center mb-4">Group Members</Text>
+              <FlatList
+                data={members}
+                keyExtractor={(item) => item.name}
+                renderItem={({ item }) => (
+                  <View
+                    className={`p-4 rounded-md flex-row justify-between mb-2 ${
+                      item.selected ? "bg-[#D1FAE5]" : "bg-white"
+                    }`}
+                  >
+                    <Text className="text-base font-bold">{item.name}</Text>
+                    {item.selected && (
+                      <Text className="text-green-600 font-bold">✓ Selected</Text>
+                    )}
+                  </View>
+                )}
+              />
+              <Text className="text-base text-gray-700 mt-4">
+                <Text className="font-bold text-[#F5CB5C]">Current: </Text>
+                {currentMember || "N/A"}
+              </Text>
+              <Text className="text-base text-gray-700 mt-2">
+                <Text className="font-bold text-[#1D4ED8]">Next: </Text>
+                {nextMember || "N/A"}
+              </Text>
+
+              {/* Close Button */}
+              <TouchableOpacity
+                className="mt-4 p-3 bg-red-500 rounded-md"
+                onPress={() => setDropdownOpen(false)}
+              >
+                <Text className="text-center text-white font-bold">Close</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </ScrollView>
-
-      {/* Current and Next */}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-          maxWidth: 300,
-        }}
-      >
-        <Text style={{ fontSize: 16, color: "#F5CB5C" }}>
-          <Text style={{ color: "#1D4ED8" }}>Next:</Text> {nextMember}
-        </Text>
-        <Text style={{ fontSize: 16, color: "#F5CB5C" }}>
-          <Text style={{ color: "#F5CB5C" }}>Current:</Text> {currentMember}
-        </Text>
-      </View>
     </SafeAreaView>
   );
 };
