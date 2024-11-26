@@ -17,6 +17,7 @@ const Profile = () => {
   const [cards, setCards] = useState([]);
   const [newCard, setNewCard] = useState({ name: '', number: '', expiry: '', ccv: '' });
   const [isAddingCard, setIsAddingCard] = useState(false);
+  const [hasCards, setHasCards] = useState(false); // New state for tracking if cards are added
 
   // Save or Edit action
   const handleSaveOrEdit = () => {
@@ -43,12 +44,16 @@ const Profile = () => {
     setCards([...cards, newCard]);
     setNewCard({ name: '', number: '', expiry: '', ccv: '' });
     setIsAddingCard(false);
+    setHasCards(true); // Set hasCards to true after adding a card
   };
 
   // Remove Card
   const handleRemoveCard = (index) => {
     const updatedCards = cards.filter((_, i) => i !== index);
     setCards(updatedCards);
+    if (updatedCards.length === 0) {
+      setHasCards(false); // Reset hasCards to false if no cards remain
+    }
   };
 
   // Logout Action
@@ -207,6 +212,16 @@ const Profile = () => {
               </TouchableOpacity>
             </View>
           ))}
+
+          {/* Show Edit button if cards have been added */}
+          {hasCards && (
+            <TouchableOpacity
+              className="bg-teal-600 py-2 rounded items-center mt-4"
+              onPress={() => setIsEditing(true)} // You can define the action for the Edit button here
+            >
+              <Text className="text-white font-bold">Edit</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </View>
