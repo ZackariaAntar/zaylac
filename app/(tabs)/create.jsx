@@ -52,7 +52,7 @@ const Create = () => {
 						placeholder="Group Name"
 						value={groupName}
 						onChangeText={setGroupName}
-						className="bg-white-100 p-4 rounded-md mt-5 font-pregular text-base w-[80%] mx-auto"
+						className="bg-white-100 p-3 rounded-md mt-5 font-pregular text-base w-[70%] mx-auto"
 					/>
 
 					{/* Amount */}
@@ -61,7 +61,7 @@ const Create = () => {
 						value={amount}
 						onChangeText={setAmount}
 						keyboardType="numeric"
-						className="bg-white-100 p-4 rounded-md mt-5 font-pregular text-base w-[80%] mx-auto"
+						className="bg-white-100 p-3 rounded-md mt-5 font-pregular text-base w-[70%] mx-auto"
 					/>
 
 					{/* Frequency */}
@@ -69,14 +69,14 @@ const Create = () => {
 						placeholder="Kaayo"
 						value={frequency}
 						onChangeText={setFrequency}
-						className="bg-white-100 p-4 rounded-md mt-5 font-pregular text-base w-[80%] mx-auto"
+						className="bg-white-100 p-3 rounded-md mt-5 font-pregular text-base w-[70%] mx-auto"
 					/>
 
 					{/* Members */}
 					{members.map((member, index) => (
 						<View
 							key={member.id}
-							className="flex-row items-center gap-3 mt-5 w-[80%] mx-auto"
+							className="flex-row items-center gap-2 mt-3 w-[80%] mx-auto"
 						>
 							<Text className="bg-blue-100 p-4 rounded-md text-white-100 w-12 text-center">
 								{index + 1}
@@ -126,14 +126,11 @@ const Create = () => {
 
 
 
-
-          
-
 					{/* Invite Button */}
 					<CustomButton
 						title="Invite"
 						handlePress={() => console.log("Invited!")}
-						containerStyles="mt-10"
+						containerStyles="m-10 "
 					/>
 				</View>
 			</ScrollView>
