@@ -1,43 +1,77 @@
+import React, { useState } from "react";
 import {
 	View,
 	Text,
 	TextInput,
 	TouchableOpacity,
-	Image,
 	ScrollView,
+	SafeAreaView,
+	Image,
 } from "react-native";
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { image } from "../../constants"; 
-import CustomButton from "../../components/CustomButton/CustomButton"; 
+import { useNavigation } from "@react-navigation/native";
+import { image } from "../../constants"; // Replace with your logo
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 const Create = () => {
 	const [members, setMembers] = useState([{ id: 1, phone: "" }]);
 	const [groupName, setGroupName] = useState("");
 	const [amount, setAmount] = useState("");
 	const [frequency, setFrequency] = useState("");
+	const [startDate, setStartDate] = useState("");
+	const navigation = useNavigation();
 
-	// Function to add more member fields
 	const addMember = () => {
 		const newId = members.length + 1;
 		setMembers([...members, { id: newId, phone: "" }]);
 	};
 
-  // Function to remove the last member field
 	const removeMember = () => {
 		if (members.length > 1) {
-			setMembers(members.slice(0, -1)); // Remove the last member
+			setMembers(members.slice(0, -1));
 		}
 	};
 
+	const generateInviteLink = async () => {
+		if (!groupName || !amount || !frequency || !startDate) {
+			alert("Please fill in all fields!");
+			return;
+		}
+
+		try {
+			// Replace with your backend API for generating invite links
+			const response = await fetch("https://your-backend-api.com/invite", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					groupName,
+					amount,
+					frequency,
+					startDate,
+					members,
+				}),
+			});
+
+			const data = await response.json();
+			if (data.link) {
+				navigation.navigate("ShareInvite", { link: data.link });
+			} else {
+				alert("Failed to generate invite link.");
+			}
+		} catch (error) {
+			console.error(error);
+			alert("Error generating invite link.");
+		}
+	};
 
 	return (
 		<SafeAreaView className="bg-primary h-full">
 			<ScrollView>
-				<View className="w-full justify-center px-6 mt-6">
+				<View className="w-full px-6 mt-6">
 					{/* Logo */}
 					<Image
-						source={image.logo} // Replace with your logo
+						source={image.logo}
 						className="w-[130px] h-[45px]"
 						resizeMode="contain"
 					/>
@@ -66,9 +100,17 @@ const Create = () => {
 
 					{/* Frequency */}
 					<TextInput
-						placeholder="Kaayo"
+						placeholder="Cycle (Daily, Weekly, etc.)"
 						value={frequency}
 						onChangeText={setFrequency}
+						className="bg-white-100 p-3 rounded-md mt-5 font-pregular text-base w-[70%] mx-auto"
+					/>
+
+					{/* Start Date */}
+					<TextInput
+						placeholder="Start Date (YYYY-MM-DD)"
+						value={startDate}
+						onChangeText={setStartDate}
 						className="bg-white-100 p-3 rounded-md mt-5 font-pregular text-base w-[70%] mx-auto"
 					/>
 
@@ -90,47 +132,38 @@ const Create = () => {
 									setMembers(updatedMembers);
 								}}
 								keyboardType="phone-pad"
-								className="bg-white-100 flex-1  p-3 rounded-md font-pregular text-base"
+								className="bg-white-100 flex-1 p-3 rounded-md font-pregular text-base"
 							/>
 						</View>
 					))}
 
-{/* Add and Remove Members Buttons */}
-<View className="flex-row justify-between items-center mt-5">
-	{/* Add More Members Button */}
-	<TouchableOpacity
-		onPress={addMember}
-		className="flex-row items-center gap-2"
-	>
-		<Text className="text-white-100 font-psemibold">
-			Add More
-		</Text>
-		<View className="bg-blue-100 w-8 h-8 rounded-full flex items-center justify-center">
-			<Text className="text-white-100 text-lg">+</Text>
-		</View>
-	</TouchableOpacity>
-
-	{/* Remove Member Button */}
-	<TouchableOpacity
-		onPress={removeMember}
-		className="flex-row items-center gap-2"
-	>
-		<View className="bg-red-500 w-8 h-8 rounded-full flex items-center justify-center">
-			<Text className="text-white-100 text-lg">-</Text>
-		</View>
-		<Text className="text-white-100 font-psemibold">
-			Add Less
-		</Text>
-	</TouchableOpacity>
-</View>
-
-
+					{/* Add/Remove Members */}
+					<View className="flex-row justify-between items-center mt-5">
+						<TouchableOpacity
+							onPress={addMember}
+							className="flex-row items-center gap-2"
+						>
+							<Text className="text-white-100 font-psemibold">Add More</Text>
+							<View className="bg-blue-100 w-8 h-8 rounded-full flex items-center justify-center">
+								<Text className="text-white-100 text-lg">+</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={removeMember}
+							className="flex-row items-center gap-2"
+						>
+							<View className="bg-red-500 w-8 h-8 rounded-full flex items-center justify-center">
+								<Text className="text-white-100 text-lg">-</Text>
+							</View>
+							<Text className="text-white-100 font-psemibold">Remove</Text>
+						</TouchableOpacity>
+					</View>
 
 					{/* Invite Button */}
 					<CustomButton
 						title="Invite"
-						handlePress={() => console.log("Invited!")}
-						containerStyles="m-10 "
+						handlePress={generateInviteLink}
+						containerStyles="m-10"
 					/>
 				</View>
 			</ScrollView>
