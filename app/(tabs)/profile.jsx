@@ -88,7 +88,7 @@ const Profile = () => {
   return (
     <View className="flex-1 bg-primary">
       {/* Logout Icon */}
-      <View className="flex-row justify-end p-4">
+      <View className="flex-row font- pbold justify-end mt-3 p-4">
         <TouchableOpacity onPress={handleLogout}>
           <ArrowRightOnRectangleIcon size={28} color="white" />
         </TouchableOpacity>
