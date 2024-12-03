@@ -38,7 +38,7 @@ const Create = () => {
 		}
 
 		try {
-			// Replace with your backend API for generating invite links
+			// we will Replace with your backend API for generating invite links
 			const response = await fetch("https://your-backend-api.com/invite", {
 				method: "POST",
 				headers: {
@@ -163,7 +163,7 @@ const Create = () => {
 					<CustomButton
 						title="Invite"
 						handlePress={generateInviteLink}
-						containerStyles="m-10"
+						containerStyles="mt-6"
 					/>
 				</View>
 			</ScrollView>
