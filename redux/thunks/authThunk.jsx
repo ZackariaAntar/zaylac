@@ -54,10 +54,10 @@ export const logout = () => async (dispatch) => {
 	try {
 		const logout = await supabase.auth.signOut();
 		if (logout.error) {
-			console.error("SUPABASE SIGN IN ERROR:", logout.error);
+			console.error("SUPABASE SIGN OUT ERROR:", logout.error);
 		} else {
 			console.log(
-				"SUPABASE SIGN IN USER SUCCESS: ",
+				"SUPABASE SIGN OUT USER SUCCESS: ",
 				logout.status,
 				logout.data
 			);

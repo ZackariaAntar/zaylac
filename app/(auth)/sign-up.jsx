@@ -28,7 +28,7 @@ const SignUp = () => {
 		setIsSubmitting(false);
 	};
 	return (
-		<SafeAreaView className="bg-primary h-full">
+		<SafeAreaView className="bg-primary h-full ">
 			<ScrollView>
 				<View className="w-full justify-center min-h-[85vh] px-4 mt-6">
 					<Image
