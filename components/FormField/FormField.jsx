@@ -7,16 +7,18 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-		<KeyboardAvoidingView
-		behavior={Platform.OS === 'ios' ? 'padding' : 'height' }
-		>
+		// <KeyboardAvoidingView
+		// behavior={Platform.OS === 'ios' ? 'padding' : 'height' }
+		// keyboardVerticalOffset={10}
+		// >
 			<View className={`space-y-2 ${otherStyles}`}>
 				<Text className="text-base text-white-200 font-pmedium">
 					{title}
 				</Text>
 				<View
 					className="border-2 border-black-200 w-full h-16 px-4 bg-white-100
-                            rounded-2xl focus:border-secondary items-center flex-row "
+                            rounded-2xl focus:border-secondary items-center flex-row"
+							style={{marginVertical:25}}
 				>
 					<TextInput
 						className="flex-1 text-black-100 font-psemibold text-base"
@@ -26,6 +28,9 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
 						onChangeText={handleChangeText}
 						secureTextEntry={title === "Password" && !showPassword}
 						autoCapitalize="none"
+						style={{
+							paddingVertical:15,
+						}}
 					/>
 
 					{title === "Password" && (
@@ -43,7 +48,7 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
 					)}
 				</View>
 			</View>
-		</KeyboardAvoidingView>
+		// </KeyboardAvoidingView>
 	);
 };
 

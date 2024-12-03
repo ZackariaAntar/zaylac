@@ -1,31 +1,168 @@
 import React, { useEffect, useState } from "react";
-import { Modal, TextInput } from "react-native";
+import {
+	Modal,
+	KeyboardAvoidingView,
+	Platform,
+	ScrollView,
+	SafeAreaView,
+	TouchableWithoutFeedback,
+	Keyboard,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FormField from "../FormField/FormField";
+import CustomButton from '../CustomButton/CustomButton'
 
-export default function CreateAccountForm() {
-const[ visible, setVisible] = useState(true)
+import { createUserProfile } from "../../redux/thunks/userThunk";
+
+export default function CreateAccountForm({ actions }) {
+    const dispatch = useDispatch();
+
+	const [visible, setVisible] = useState(true);
+	const auth = useSelector((store) => store.auth);
+	const { show, setShow } = actions;
+
+	const profileData = {
+		username: "",
+		user_id: auth.user.id,
+		first_name: "",
+		last_name: "",
+		phone_number: "",
+		email: auth.user.email,
+		city: "",
+		country: "",
+        gender_identity:''
+	};
+
+	const [form, setForm] = useState(profileData);
+
+	const handleSubmit = () => {
+        console.log('FORM', form);
+
+
+        dispatch(createUserProfile(form))
+
+		cleanUp();
+	};
+
+	const cleanUp = () => {
+		setForm(profileData);
+	};
+
 	return (
-		<Modal
-			animationType="slide"
-			transparent={false}
-			visible={visible}
-			onRequestClose={() => {
-				Alert.alert("Modal has been closed.");
-				setVisible(!visible);
+		<SafeAreaView
+			style={{
+				flex: 1,
+				paddingVertical: 50,
+
+				backgroundColor: "#eee",
 			}}
 		>
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-			<FormField />
-		</Modal>
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={show}
+				onRequestClose={() => {
+					setShow(false);
+					console.log("CLOSED");
+				}}
+			>
+				<KeyboardAvoidingView
+					behavior={Platform.OS === "ios" ? "padding" : "height"}
+					style={{
+						flex: 1,
+						paddingTop: 80,
+						backgroundColor: "#fff",
+					}}
+				>
+					<ScrollView
+						style={{
+							paddingHorizontal: 20,
+							backgroundColor: "#eee",
+							flexGrow: 1, // Allows ScrollView to take full height
+						}}
+						keyboardShouldPersistTaps="handled"
+					>
+						<FormField
+                        title={'Username'}
+                        value={form.username}
+                        placeholder={'Choose a username'}
+                        handleChangeText={((text)=>{
+                            setForm({...form, username:text})
+
+                        })}
+                        otherStyles={null}
+                        />
+						<FormField
+                        title={'First Name'}
+                        value={form.first_name}
+                        placeholder={"What's your First Name?"}
+                        handleChangeText={((text)=>{
+                            setForm({ ...form, first_name: text });
+
+                        })}
+                        otherStyles={null}
+                        />
+						<FormField
+                        title={'Last Name'}
+                        value={form.last_name}
+                        placeholder={"What's your Last Name?"}
+                        handleChangeText={((text)=>{
+                            setForm({ ...form, last_name: text });
+
+                        })}
+                        otherStyles={null}
+                        />
+						<FormField
+                        title={'Gender Identity'}
+                        value={form.gender_identity}
+                        placeholder={"What's your Last Name?"}
+                        handleChangeText={((text)=>{
+                            setForm({ ...form, gender_identity: text });
+
+                        })}
+                        otherStyles={null}
+                        />
+						<FormField
+                        title={'Phone Number'}
+                        value={form.phone_number}
+                        placeholder={"(xxx) xxx-xxxx"}
+                        handleChangeText={((text)=>{
+                            setForm({ ...form, phone_number: text });
+
+                        })}
+                        otherStyles={null}
+                        />
+						<FormField
+                        title={'City'}
+                        value={form.city}
+                        placeholder={"What city do you live in?"}
+                        handleChangeText={((text)=>{
+                            setForm({ ...form, city: text });
+
+                        })}
+                        otherStyles={null}
+                        />
+						<FormField
+                        title={'City'}
+                        value={form.country}
+                        placeholder={"What coutry do you live in?"}
+                        handleChangeText={((text)=>{
+                            setForm({ ...form, country: text });
+
+                        })}
+                        otherStyles={null}
+                        />
+                        <CustomButton
+                        title={'Complete Profile'}
+                        otherStyles={{marginBottom:50}}
+                        handlePress={handleSubmit}
+                        />
+
+
+					</ScrollView>
+				</KeyboardAvoidingView>
+				{/* </TouchableWithoutFeedback> */}
+			</Modal>
+		</SafeAreaView>
 	);
 }

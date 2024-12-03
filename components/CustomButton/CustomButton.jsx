@@ -7,6 +7,7 @@ const CustomButton = ({
 	containerStyles,
 	textStyles,
 	isLoading,
+	otherStyles,
 	route,
 }) => {
 	return (
@@ -17,6 +18,7 @@ const CustomButton = ({
             min-h-[62px] justify-center items-center ${containerStyles}
             ${isLoading ? "opacity-50" : " "}`}
 			disabled={isLoading}
+			style={otherStyles}
 		>
 			<Text className={`text-black-200 font-psemibold ${textStyles}`}>
 				{title}
