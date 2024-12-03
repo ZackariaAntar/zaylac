@@ -8,6 +8,7 @@ import { store, persistor } from "../redux/store";
 import { supabase } from "../utils/supabase/supabaseClient";
 import { StatusBar } from "expo-status-bar";
 import { setAuthData } from "@/redux/slices/authSlice";
+import {getUser} from '../redux/thunks/userThunk.jsx'
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,9 +36,12 @@ const App = () => {
 			switch (event) {
 				case "INITIAL_SESSION":
 					if (session?.user) {
+						dispatch(getUser(session.user.id))
 						router.push("home");
+
 					}else{
             router.replace('/')
+
           }
 					setLoading(false);
 					break;
@@ -45,6 +49,8 @@ const App = () => {
 					console.log("User signed in");
 					if (session?.user) {
 						dispatch(setAuthData(session.user.id));
+						dispatch(getUser(session.user.id));
+
 					}
 					router.push("home");
 					setLoading(false);
