@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
+	Modal,
 	View,
 	Text,
 	FlatList,
@@ -55,7 +56,7 @@ const Home = () => {
 	);
 
 	const toggleAccountForm = () => {
-		dispatch(getUser(auth.user.id)).then(() => {
+		dispatch(getUser(auth.id)).then(() => {
 			if (user.username) {
 				setShow(false);
 			} else {
@@ -63,7 +64,6 @@ const Home = () => {
 			}
 		});
 	};
-
 
 	const renderGroup = ({ item }) => (
 		<TouchableOpacity className="bg-white-100 font-pbold  rounded-2xl p-4 m-4 shadow">
@@ -99,10 +99,17 @@ const Home = () => {
 				keyExtractor={(item) => item.id.toString()}
 				contentContainerStyle={{ paddingBottom: 16 }}
 			/>
-
-			{!user.username && (
-				<CreateAccountForm actions={{ show, setShow }} />
-			)}
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={show}
+				onRequestClose={() => {
+					setShow(false);
+					console.log("CLOSED");
+				}}
+			>
+				<CreateAccountForm />
+			</Modal>
 		</SafeAreaView>
 	);
 };

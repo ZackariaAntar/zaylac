@@ -36,19 +36,20 @@ const App = () => {
 			switch (event) {
 				case "INITIAL_SESSION":
 					if (session?.user) {
+						dispatch(setAuthData(session.user));
 						dispatch(getUser(session.user.id))
 						router.push("home");
 
 					}else{
-            router.replace('/')
+						router.replace('/')
 
-          }
+					}
 					setLoading(false);
 					break;
-				case "SIGNED_IN":
-					console.log("User signed in");
-					if (session?.user) {
-						dispatch(setAuthData(session.user.id));
+					case "SIGNED_IN":
+						console.log("User signed in");
+						if (session?.user) {
+						dispatch(setAuthData(session.user));
 						dispatch(getUser(session.user.id));
 
 					}
