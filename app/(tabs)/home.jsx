@@ -57,7 +57,7 @@ const Home = () => {
 
 	const toggleAccountForm = () => {
 		dispatch(getUser(auth.id)).then(() => {
-			if (user.username === 'gasdg') {
+			if (user.username) {
 				setShow(false);
 			} else {
 				setShow(true);
