@@ -7,12 +7,12 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FormField from "../FormField/FormField";
-import CustomButton from '../CustomButton/CustomButton'
+import CustomButton from "../CustomButton/CustomButton";
 
 import { createUserProfile } from "../../redux/thunks/userThunk";
 
-export default function CreateAccountForm({ }) {
-    const dispatch = useDispatch();
+export default function CreateAccountForm({}) {
+	const dispatch = useDispatch();
 	const auth = useSelector((store) => store.auth);
 
 	const profileData = {
@@ -24,22 +24,34 @@ export default function CreateAccountForm({ }) {
 		email: auth.email,
 		city: "",
 		country: "",
-        gender_identity:''
+		gender_identity: "",
 	};
 
 	const [form, setForm] = useState(profileData);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = () => {
-        console.log('FORM', form);
-
-
-        dispatch(createUserProfile(form))
-
+		setIsLoading(true);
+		console.log("FORM", form);
+		dispatch(createUserProfile(form));
 		cleanUp();
 	};
 
 	const cleanUp = () => {
+		setIsLoading(false);
 		setForm(profileData);
+	};
+
+	const canSubmit = () => {
+		let disabled = true;
+		if (
+			Object.values(form).every(
+				(value) => value !== undefined && value !== null && value !== ""
+			)
+		) {
+			disabled = false;
+		}
+		return disabled;
 	};
 
 	return (
@@ -79,7 +91,7 @@ export default function CreateAccountForm({ }) {
 					<FormField
 						title={"First Name"}
 						value={form.first_name}
-						placeholder={"What's your First Name?"}
+						placeholder={"What's your first name?"}
 						handleChangeText={(text) => {
 							setForm({ ...form, first_name: text });
 						}}
@@ -88,7 +100,7 @@ export default function CreateAccountForm({ }) {
 					<FormField
 						title={"Last Name"}
 						value={form.last_name}
-						placeholder={"What's your Last Name?"}
+						placeholder={"What's your last name?"}
 						handleChangeText={(text) => {
 							setForm({ ...form, last_name: text });
 						}}
@@ -97,7 +109,7 @@ export default function CreateAccountForm({ }) {
 					<FormField
 						title={"Gender Identity"}
 						value={form.gender_identity}
-						placeholder={"What's your Last Name?"}
+						placeholder={"What's your gender identity?"}
 						handleChangeText={(text) => {
 							setForm({ ...form, gender_identity: text });
 						}}
@@ -106,9 +118,18 @@ export default function CreateAccountForm({ }) {
 					<FormField
 						title={"Phone Number"}
 						value={form.phone_number}
-						placeholder={"(xxx) xxx-xxxx"}
+						placeholder={"(XXX) XXX-XXXX"}
+						type={"phone-pad"}
+						isMasked={true}
+						maskType={"cel-phone"}
+						maskOptions={{
+							// maskType: "INTERNATIONAL",
+							dddMask: "(999) 999-9999 ",
+						}}
 						handleChangeText={(text) => {
 							setForm({ ...form, phone_number: text });
+							console.log(form);
+							
 						}}
 						otherStyles={null}
 					/>
@@ -122,9 +143,9 @@ export default function CreateAccountForm({ }) {
 						otherStyles={null}
 					/>
 					<FormField
-						title={"City"}
+						title={"Country"}
 						value={form.country}
-						placeholder={"What coutry do you live in?"}
+						placeholder={"What country do you live in?"}
 						handleChangeText={(text) => {
 							setForm({ ...form, country: text });
 						}}
@@ -134,6 +155,8 @@ export default function CreateAccountForm({ }) {
 						title={"Complete Profile"}
 						otherStyles={{ marginBottom: 50 }}
 						handlePress={handleSubmit}
+						disabled={canSubmit()}
+						isLoading={isLoading}
 					/>
 				</ScrollView>
 			</KeyboardAvoidingView>
