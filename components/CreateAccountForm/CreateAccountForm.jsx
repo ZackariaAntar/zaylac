@@ -128,8 +128,7 @@ export default function CreateAccountForm({}) {
 						}}
 						handleChangeText={(text) => {
 							setForm({ ...form, phone_number: text });
-							console.log(form);
-							
+
 						}}
 						otherStyles={null}
 					/>
