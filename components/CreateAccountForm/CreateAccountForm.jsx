@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-	Modal,
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
 	SafeAreaView,
-	TouchableWithoutFeedback,
-	Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import FormField from "../FormField/FormField";
@@ -14,20 +11,17 @@ import CustomButton from '../CustomButton/CustomButton'
 
 import { createUserProfile } from "../../redux/thunks/userThunk";
 
-export default function CreateAccountForm({ actions }) {
+export default function CreateAccountForm({ }) {
     const dispatch = useDispatch();
-
-	const [visible, setVisible] = useState(true);
 	const auth = useSelector((store) => store.auth);
-	const { show, setShow } = actions;
 
 	const profileData = {
 		username: "",
-		user_id: auth.user.id,
+		user_id: auth.id,
 		first_name: "",
 		last_name: "",
 		phone_number: "",
-		email: auth.user.email,
+		email: auth.email,
 		city: "",
 		country: "",
         gender_identity:''
@@ -53,19 +47,10 @@ export default function CreateAccountForm({ actions }) {
 			style={{
 				flex: 1,
 				paddingVertical: 50,
-
 				backgroundColor: "#eee",
 			}}
 		>
-			<Modal
-				animationType="slide"
-				transparent={true}
-				visible={show}
-				onRequestClose={() => {
-					setShow(false);
-					console.log("CLOSED");
-				}}
-			>
+
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={{
@@ -161,8 +146,6 @@ export default function CreateAccountForm({ actions }) {
 
 					</ScrollView>
 				</KeyboardAvoidingView>
-				{/* </TouchableWithoutFeedback> */}
-			</Modal>
 		</SafeAreaView>
 	);
 }
