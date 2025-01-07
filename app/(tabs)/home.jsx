@@ -49,21 +49,13 @@ const Home = () => {
 		fetchGroups();
 	}, []);
 
-	useFocusEffect(
-		useCallback(() => {
-			toggleAccountForm();
-		}, [])
-	);
-
-	const toggleAccountForm = () => {
-		dispatch(getUser(auth.id)).then(() => {
-			if (user.username) {
-				setShow(false);
-			} else {
-				setShow(true);
-			}
-		});
-	};
+	useEffect(()=>{
+		if(user.username){
+			setShow(false)
+		}else{
+			setShow(true)
+		}
+	},[user])
 
 	const renderGroup = ({ item }) => (
 		<TouchableOpacity className="bg-white-100 font-pbold  rounded-2xl p-4 m-4 shadow">
