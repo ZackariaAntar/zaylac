@@ -1,7 +1,7 @@
 import { supabase } from "../../utils/supabase/supabaseClient.jsx";
 
-import { setUserData } from "../slices/userSlice.jsx";
-import { setAuthData } from "../slices/authSlice.jsx";
+import { setUserData, clearUserData } from "../slices/userSlice.jsx";
+import { setAuthData, clearAuthData } from "../slices/authSlice.jsx";
 
 export const registerUser = (payload) => async (dispatch) => {
 	console.log("IN AUTH THUNK ----> registerUser(payload): ", payload);
@@ -20,9 +20,7 @@ export const registerUser = (payload) => async (dispatch) => {
 				register.data
 			);
 
-            dispatch(setAuthData(register.data))
-
-			// dispatch(signIn(payload));
+            dispatch(setAuthData(register.data.user))
 		}
 	} catch (error) {
 		console.error("AUTH THUNK ERROR ----> registerUser(payload):", error);
@@ -42,7 +40,6 @@ export const signIn = (payload) => async (dispatch) => {
 				login.status,
 				login.data
 			);
-            dispatch(setAuthData(login.data));
 		}
 	} catch (error) {
 		console.error("AUTH THUNK ERROR ----> signIn(payload):", error);
@@ -56,6 +53,7 @@ export const logout = () => async (dispatch) => {
 		if (logout.error) {
 			console.error("SUPABASE SIGN OUT ERROR:", logout.error);
 		} else {
+			dispatch(clearAuthData());
 			console.log(
 				"SUPABASE SIGN OUT USER SUCCESS: ",
 				logout.status,
@@ -88,6 +86,23 @@ export const createUserProfile = (payload) => async (dispatch) => {
 			.insert(payload)
 			.select()
 			.single();
-	} catch (error) {}
+
+			if (createUser.error) {
+				console.error("SUPABASE CREATE USER ERROR:", createUser.error);
+			} else {
+				console.log(
+					"SUPABASE CREATE USER SUCCESS: ",
+					createUser.status,
+					createUser.data
+				);
+			}
+			
+	} catch (error) {
+				console.error(
+					"AUTH THUNK ERROR ----> createUserProfile():",
+					error
+				);
+
+	}
 };
 
