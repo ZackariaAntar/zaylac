@@ -20,7 +20,7 @@ export const registerUser = (payload) => async (dispatch) => {
 				register.data
 			);
 
-            dispatch(setAuthData(register.data.user))
+			dispatch(setAuthData(register.data.user));
 		}
 	} catch (error) {
 		console.error("AUTH THUNK ERROR ----> registerUser(payload):", error);
@@ -87,22 +87,41 @@ export const createUserProfile = (payload) => async (dispatch) => {
 			.select()
 			.single();
 
-			if (createUser.error) {
-				console.error("SUPABASE CREATE USER ERROR:", createUser.error);
-			} else {
-				console.log(
-					"SUPABASE CREATE USER SUCCESS: ",
-					createUser.status,
-					createUser.data
-				);
-			}
-			
+		if (createUser.error) {
+			console.error("SUPABASE CREATE USER ERROR:", createUser.error);
+		} else {
+			console.log(
+				"SUPABASE CREATE USER SUCCESS: ",
+				createUser.status,
+				createUser.data
+			);
+			// check the pending invited table for a matching phone number and add them to the group if it matches.
+		}
 	} catch (error) {
-				console.error(
-					"AUTH THUNK ERROR ----> createUserProfile():",
-					error
-				);
-
+		console.error("AUTH THUNK ERROR ----> createUserProfile():", error);
 	}
 };
 
+export const inviteUser = (members, groupId) => async (dispatch) => {
+	console.log("IN AUTH THUNK ----> inviteUser(members): ", members, groupId);
+
+	try {
+		for (let member of members) {
+			console.log("IN AUTH THUNK ----> inviteUser: NUMBER ", member.number);
+
+			// const invite = await supabase.auth.inviteUser(number);
+			// if (invite.error) {
+			// 	console.error("SUPABASE INVITE USER ERROR:", invite.error);
+			// } else {
+			// 	console.log(
+			// 		"SUPABASE INVITE USER USER SUCCESS: ",
+			// 		invite.status,
+			// 		invite.data
+			// 	);
+			// }
+			// insert into the pending invites table
+		}
+	} catch (error) {
+		console.error("AUTH THUNK ERROR ----> inviteUser(members):", error);
+	}
+};
