@@ -102,12 +102,27 @@ export const createUserProfile = (payload) => async (dispatch) => {
 	}
 };
 
-export const inviteUser = (members, groupId) => async (dispatch) => {
-	console.log("IN AUTH THUNK ----> inviteUser(members): ", members, groupId);
+export const inviteUser = (phoneNumbers, groupId) => async (dispatch) => {
+	console.log(
+		"IN AUTH THUNK ----> inviteUser(phoneNumbers, groupId): ",
+		phoneNumbers,
+		groupId
+	);
 
 	try {
-		for (let member of members) {
-			console.log("IN AUTH THUNK ----> inviteUser: NUMBER ", member.number);
+		for (let number of phoneNumbers) {
+			console.log("IN AUTH THUNK ----> inviteUser: NUMBER ", number);
+			const addToPending = await supabase
+				.from("pending_invites")
+				.insert({ phone_number: number, group_id: groupId }).select().single()
+
+				if(addToPending.error){
+					console.error('SUPABASE ADD TO PENDING ERROR!:', addToPending.error);
+
+				}else{
+					console.log('SUPABASE ADD TO PENDING SUCCESS!:', addToPending.data);
+
+				}
 
 			// const invite = await supabase.auth.inviteUser(number);
 			// if (invite.error) {

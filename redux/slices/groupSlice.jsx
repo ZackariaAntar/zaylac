@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState =[];
+const initialState = { pending: [], data: [] };
 
 const groupSlice = createSlice({
 	name: "group",
 	initialState,
 	reducers: {
 		setGroupData(state, action) {
-			return action.payload;
+			return { ...state, data: action.payload };
+		},
+		setPendingData(state, action) {
+			return { ...state, pending: action.payload };
 		},
 		clearGroupData() {
 			return initialState;
@@ -14,6 +17,7 @@ const groupSlice = createSlice({
 	},
 });
 
-export const { setGroupData, clearGroupData } = groupSlice.actions;
+export const { setGroupData, setPendingData, clearGroupData } =
+	groupSlice.actions;
 
 export default groupSlice.reducer;

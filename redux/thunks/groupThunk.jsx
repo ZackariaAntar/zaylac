@@ -1,5 +1,5 @@
 import { supabase } from "../../utils/supabase/supabaseClient.jsx";
-import { setGroupData, clearGroupData } from "../slices/groupSlice.jsx";
+import { setGroupData, setPendingData, clearGroupData } from "../slices/groupSlice.jsx";
 import { inviteUser } from "./authThunk.jsx";
 
 export const getGroups = (userId) => async (dispatch) => {
@@ -55,11 +55,12 @@ export const createGroup = (groupData) => async (dispatch) => {
 
 	try {
 		let listOfUsers = [];
-		console.log("NAME", name);
+		let notYetMembers = [];
+		let alreadyMembers = [];
+		let groupId;
 
 		// check for existing groups created by user, to make sure no duplicate named groups for user.
-		const proceed = await dispatch(findExistingGroup(user_table_id, name))
-		console.log("PROCEED", proceed);
+		const proceed = await dispatch(findExistingGroup(user_table_id, name));
 
 		if (proceed.status === true) {
 			const newGroup = await supabase
@@ -77,6 +78,7 @@ export const createGroup = (groupData) => async (dispatch) => {
 					"SUPABASE CREATE NEW GROUP SUCCESS!: ",
 					newGroup.data
 				);
+				groupId = newGroup.data.id;
 
 				const checkForAccount = await supabase
 					.from("user")
@@ -90,6 +92,7 @@ export const createGroup = (groupData) => async (dispatch) => {
 				} else {
 					console.log("PHONE USERS:", checkForAccount.data);
 					const list = checkForAccount.data;
+					alreadyMembers = checkForAccount.data;
 					if (list.length) {
 						list.forEach((item) => listOfUsers.push(item.id));
 						listOfUsers = [user_table_id, ...listOfUsers];
@@ -108,18 +111,17 @@ export const createGroup = (groupData) => async (dispatch) => {
 
 		// if a user exists in user table based on matching phone numbers submitted with the invite
 		// then include them in the addUserToGroup dispatch and remove them from the inviteUsers dispatch
-
-		// dispatch(addUserToGroup(user_table_id, newGroup.data.id));
-
-		// let notYetMembers
-		// for(let member of members){
-		//   for(let user of checkForAccount.data){
-		// 	if(member.phone !== user.phone_number ){
-		// 	  notYetMembers.push(member)
-		// 	}
-		//   }
-		// }
-		// dispatch(inviteUser(notYetMembers));
+		const userPhoneNumbers = alreadyMembers.map(
+			(user) => user.phone_number
+		);
+		notYetMembers = [
+			...userPhoneNumbers.filter((value) => !phoneInvite.includes(value)),
+			...phoneInvite.filter((value) => !userPhoneNumbers.includes(value)),
+		];
+		console.log("NOT MEMBERS", notYetMembers);
+		if (notYetMembers.length) {
+			dispatch(inviteUser(notYetMembers, groupId));
+		}
 	} catch (error) {
 		console.log("GROUP THUNK ERROR -->createGroup(groupData): ", error);
 	}
@@ -205,5 +207,83 @@ const findExistingGroup = (userId, chosen) => async (dispatch) => {
 		return message;
 	} catch (error) {
 		console.error("EXISTING GROUP ERROR", error);
+	}
+};
+
+export const checkPendingInvites = (userId, phone) => async (dispatch) => {
+	console.log("IN GROUP THUNK --> checkPendingInvites(userId)", userId);
+	try {
+		const checkPending = await supabase
+			.from("pending_invites")
+			.select("*")
+			.eq("phone_number", phone)
+			.eq('is_profile_created', false)
+		if (checkPending.error) {
+			console.error(
+				"SUPABASE CHECK PENDING INVITES ERROR!:",
+				checkPending.error
+			);
+		} else {
+			console.log(
+				"SUPABASE CHECK PENDING INVITES SUCCESS!:",
+				checkPending.data
+			);
+					dispatch(setPendingData(checkPending.data));
+
+			for (let entry of checkPending.data) {
+				const addToGroups = await supabase
+					.from("user_group_junction")
+					.insert({
+						group_id: entry.group_id,
+						user_table_id: userId,
+					})
+					.select()
+					.single();
+				if (addToGroups.error) {
+					console.error(
+						"SUPABASE ADD TO GROUP FROM PENDING ERROR",
+						addToGroups.error
+					);
+				} else {
+					console.log(
+						"SUPABASE ADD TO GROUP FROM PENDING SUCCESS",
+						addToGroups.data
+					);
+					dispatch(cleanUpPending(phone, entry.group_id));
+				}
+			}
+		}
+	} catch (error) {
+		console.error(
+			"GROUP THUNK ERROR --> checkPendingInvites(userId)",
+			error
+		);
+	}
+};
+
+const cleanUpPending = (phone, groupId) => async (dispatch) => {
+	console.log("CLEAN UP PENDING TABLE (phone, groupId)", phone, groupId);
+
+	try {
+		const cleanUp = await supabase
+			.from("pending_invites")
+			.update({ is_profile_created: true })
+			.eq("phone_number", phone)
+			.eq("group_id", groupId)
+			.select()
+			.single();
+		if (cleanUp.error) {
+			console.error(
+				"SUPABASE CLEAN UP PENDING INVITES ERROR",
+				cleanUp.error
+			);
+		} else {
+			console.log(
+				"SUPABASE CLEAN UP PENDING INVITES SUCCESS",
+				cleanUp.data
+			);
+		}
+	} catch (error) {
+		console.error("CLEAN UP PENDING TABLE ERROR", error);
 	}
 };
