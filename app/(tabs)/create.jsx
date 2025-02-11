@@ -206,6 +206,7 @@ const Create = () => {
 							<Text className="bg-blue-100 p-4 rounded-md text-white-100 w-12 text-center">
 								{index + 1}
 							</Text>
+							{/* change to be phone number masked like in profile form */}
 							<TextInput
 								placeholder="Member Number"
 								value={member.phone}
