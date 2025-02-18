@@ -142,7 +142,7 @@ export const addUserToGroup =
 
 		try {
 			for (let user of idArray) {
-				let payload = { user_table_id: user, group_id: groupId };
+				let payload = { user_table_id: user, group_id: groupId};
 				console.log("&& PAYLOAD:", payload);
 
 				const addUser = await supabase

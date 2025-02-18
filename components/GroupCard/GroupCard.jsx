@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import Randomizer from "../../components/Randomizer/Randomizer";
+import { useSelector } from "react-redux";
 
 
 export default function GroupCard({ group }) {
@@ -9,6 +10,8 @@ export default function GroupCard({ group }) {
 	const [currentMember, setCurrentMember] = useState({});
 	const [nextMember, setNextMember] = useState({});
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const user = useSelector((store)=> store.user)
 
 
     const hasBeenSelected = users.some((member) => member.is_current)
@@ -30,7 +33,7 @@ useEffect(()=>{
 			<Text style={{ fontSize: 20, fontWeight: 700 }}>Date: </Text>
 			<View className="relative w-[230px] h-[230px] rounded-full border-2 border-gray-300 bg-gray-100 self-center mb-4 flex justify-center items-center">
 				<Text className="absolute text-lg font-bold text-yellow-500">
-					{currentMember.first_name || "N/A"}
+					{currentMember?.first_name || "N/A"}
 				</Text>
 				{users?.map((member, index) => {
 					const angle = (index / users.length) * 2 * Math.PI;
@@ -40,9 +43,9 @@ useEffect(()=>{
 						<Text
 							key={index}
 							className={`absolute ${
-								member.first_name === currentMember.first_name
+								member.first_name === currentMember?.first_name
 									? "text-yellow-500 font-bold"
-									: member.first_name === nextMember.first_name
+									: member.first_name === nextMember?.first_name
 									? "text-blue-500 font-bold"
 									: "text-gray-600"
 							}`}
@@ -64,7 +67,7 @@ useEffect(()=>{
 					);
 				})}
 			</View>
-            {!hasBeenSelected && <Randomizer members={users} group_id={group.id} />}
+            {(!hasBeenSelected && user.user_id == group.created_by )&& <Randomizer members={users} group_id={group.id} />}
 			<TouchableOpacity
 				className="py-4 bg-yellow-500 rounded-lg"
 				onPress={() => setDropdownOpen(!dropdownOpen)}
