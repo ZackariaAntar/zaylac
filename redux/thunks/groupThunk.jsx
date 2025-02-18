@@ -1,5 +1,9 @@
 import { supabase } from "../../utils/supabase/supabaseClient.jsx";
-import { setGroupData, setPendingData, clearGroupData } from "../slices/groupSlice.jsx";
+import {
+	setGroupData,
+	setPendingData,
+	clearGroupData,
+} from "../slices/groupSlice.jsx";
 import { inviteUser } from "./authThunk.jsx";
 
 export const getGroups = (userId) => async (dispatch) => {
@@ -138,7 +142,7 @@ export const addUserToGroup =
 
 		try {
 			for (let user of idArray) {
-				let payload = { user_table_id: user, group_id: groupId };
+				let payload = { user_table_id: user, group_id: groupId};
 				console.log("&& PAYLOAD:", payload);
 
 				const addUser = await supabase
@@ -217,7 +221,7 @@ export const checkPendingInvites = (userId, phone) => async (dispatch) => {
 			.from("pending_invites")
 			.select("*")
 			.eq("phone_number", phone)
-			.eq('is_profile_created', false)
+			.eq("is_profile_created", false);
 		if (checkPending.error) {
 			console.error(
 				"SUPABASE CHECK PENDING INVITES ERROR!:",
@@ -228,7 +232,7 @@ export const checkPendingInvites = (userId, phone) => async (dispatch) => {
 				"SUPABASE CHECK PENDING INVITES SUCCESS!:",
 				checkPending.data
 			);
-					dispatch(setPendingData(checkPending.data));
+			dispatch(setPendingData(checkPending.data));
 
 			for (let entry of checkPending.data) {
 				const addToGroups = await supabase
@@ -285,5 +289,77 @@ const cleanUpPending = (phone, groupId) => async (dispatch) => {
 		}
 	} catch (error) {
 		console.error("CLEAN UP PENDING TABLE ERROR", error);
+	}
+};
+export const chooseFirst = (memberId, groupId) => async (dispatch) => {
+	console.log(
+		"In GROUP THUNK --> chooseFirst(memberId, groupId)",
+		memberId,
+		groupId
+	);
+	try {
+		const makeIsCurrent = await supabase
+			.from("user_group_junction")
+			.update({ is_current: true })
+			.eq("user_table_id", memberId)
+			.eq("group_id", groupId)
+			.select()
+			.single();
+
+		if (makeIsCurrent.error) {
+			console.error(
+				"SUPABASE MAKE IS CURRENT ERROR!!",
+				makeIsCurrent.error
+			);
+		} else {
+			console.log(
+				"SUPABASE MAKE IS CURRENT SUCCESS!!",
+				makeIsCurrent.status,
+				makeIsCurrent.data
+			);
+
+			dispatch(getGroups(memberId));
+		}
+	} catch (error) {
+		console.error(
+			"GROUP THUNK ERROR --> chooseFirst(memberId, groupId)",
+			error
+		);
+	}
+};
+export const chooseNext = (memberId, groupId) => async (dispatch) => {
+	console.log(
+		"In GROUP THUNK --> chooseNext(memberId, groupId)",
+		memberId,
+		groupId
+	);
+	try {
+		const makeIsCurrent = await supabase
+			.from("user_group_junction")
+			.update({ is_next: true })
+			.eq("user_table_id", memberId)
+			.eq("group_id", groupId)
+			.select()
+			.single();
+
+		if (makeIsCurrent.error) {
+			console.error(
+				"SUPABASE MAKE IS CURRENT ERROR!!",
+				makeIsCurrent.error
+			);
+		} else {
+			console.log(
+				"SUPABASE MAKE IS CURRENT SUCCESS!!",
+				makeIsCurrent.status,
+				makeIsCurrent.data
+			);
+
+			dispatch(getGroups(memberId));
+		}
+	} catch (error) {
+		console.error(
+			"GROUP THUNK ERROR --> chooseNext(memberId, groupId)",
+			error
+		);
 	}
 };

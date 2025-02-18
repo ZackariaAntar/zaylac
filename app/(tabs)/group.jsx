@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -11,6 +11,8 @@ import {
 import { checkPendingInvites, getGroups } from "../../redux/thunks/groupThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGroupData } from "../../redux/slices/groupSlice";
+import GroupCard from "../../components/GroupCard/GroupCard";
+import { useFocusEffect } from "expo-router";
 
 const GroupInfo = () => {
 	const dispatch = useDispatch();
@@ -68,10 +70,19 @@ const GroupInfo = () => {
 		dispatch(checkPendingInvites(user.id, user.phone_number));
 	}, [groups.pending.length]);
 
+	useFocusEffect(
+		useCallback(() => {
+			dispatch(getGroups(user.id))
+		},[dispatch, user.id])
+	)
+
+
+
 	return (
 		<SafeAreaView className="flex-1 bg-[#006B61] px-4">
-			<ScrollView
-				contentContainerStyle={{
+			<View
+				style={{
+					flex:1,
 					alignItems: "center",
 					paddingBottom: 16,
 				}}
@@ -82,9 +93,14 @@ const GroupInfo = () => {
 					className="w-32 h-12 mt-6 mb-4"
 					resizeMode="contain"
 				/>
+				<FlatList
+				style={{flex:1}}
+					data={groups.data}
+					keyExtractor={(item) => item.id}
+					renderItem={({ item }) => <GroupCard group={item} />}
+				/>
 
-				{/* Group Card */}
-				<View className="bg-white-200 p-4 rounded-lg w-full max-w-xs shadow-md mb-4">
+				{/* <View className="bg-white-200 p-4 rounded-lg w-full max-w-xs shadow-md mb-4">
 					<Text className="text-lg font-bold text-center mb-2">
 						Group: Mahamud's Group
 					</Text>
@@ -95,7 +111,6 @@ const GroupInfo = () => {
 						Due: 09/15/24
 					</Text>
 
-					{/* Circle Visualization */}
 					<View className="relative w-[230px] h-[230px] rounded-full border-2 border-gray-300 bg-gray-100 self-center mb-4 flex justify-center items-center">
 						<Text className="absolute text-lg font-bold text-yellow-500">
 							{currentMember || "N/A"}
@@ -136,7 +151,6 @@ const GroupInfo = () => {
 						})}
 					</View>
 
-					{/* Dropdown for Member Details */}
 					<TouchableOpacity
 						className="py-4 bg-yellow-500 rounded-lg"
 						onPress={() => setDropdownOpen(!dropdownOpen)}
@@ -173,6 +187,7 @@ const GroupInfo = () => {
 									</View>
 								)}
 							/>
+
 							<Text className="text-base text-gray-700 mt-4">
 								<Text className="font-bold text-yellow-500">
 									Current:{" "}
@@ -186,7 +201,6 @@ const GroupInfo = () => {
 								{nextMember || "N/A"}
 							</Text>
 
-							{/* Close Button */}
 							<TouchableOpacity
 								className="mt-4 py-3 bg-red-500 rounded-lg"
 								onPress={() => setDropdownOpen(false)}
@@ -197,14 +211,8 @@ const GroupInfo = () => {
 							</TouchableOpacity>
 						</View>
 					)}
-				</View>
-				<View>
-          {groups.data.map((group)=>(
-            <Text key={group.id}> {group.name}</Text>
-
-          ))}
-        </View>
-			</ScrollView>
+				</View> */}
+			</View>
 		</SafeAreaView>
 	);
 };
